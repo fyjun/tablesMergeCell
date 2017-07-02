@@ -1,0 +1,76 @@
+body,html{
+    width: 100%;
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+input,span,i{
+    display: inline-block;
+}
+ul li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+input{
+    height: 30px;
+    font-size: 12px;
+    border: 1px solid black;
+}
+select{
+    font-size: 12px;
+}
+input[type=button]{
+    font-size: 12px;
+    padding: 8px 30px;
+    border-radius: 8px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+.container{
+    width: auto;
+    height: 100%;
+    padding: 0 20px;
+}
+h3{
+    font-size: 28px;
+    text-align: center;
+    padding: 10px;
+}
+.addSection{
+   padding: 20px;
+    margin-top: 20px;
+    border: 1px solid black;
+}
+.addSection .setting{
+    margin-bottom: 20px;
+}
+.addSection label{
+    display: inline-block;
+    width: 32%;
+
+}
+.addSection label input{
+    margin-right: 5px;
+}
+.type_select{
+    width: 100%;
+    padding: 10px 20px;
+}
+.type_select select{
+    width: 300px;
+    height: 30px;
+    border: 1px solid black;
+}
+.tableSpace{
+    width: 100%;
+}
+.play_table{
+    width: 300px;
+}
+.play_table input{
+    margin-right: 20px;
+}

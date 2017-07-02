@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格合并</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/table.css">
+</head>
+<body>
+<div class="container">
+    <h3>模型评级配置</h3>
+    <div class="type_select">
+        <label>
+            业务类型：
+            <select id="selectBox">
+                <option value="0">爱抵贷</option>
+                <option value="1">爱抵贷</option>
+                <option value="2">爱抵贷</option>
+                <option value="3">爱抵贷</option>
+            </select>
+            <input type="button" value="增加区间" class="addSpace">
+            <input type="button" value="提交配置" class="tijiao">
+        </label>
+    </div>
+</div>
+<a href="" >11</a>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/tablesMergeCell.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        var flag=true,index=0,editIndex=0;
+        var selectBox='<select index="0" name="opt" style="width: 100px;margin-right: 10px;" class="symbol">' +
+            '<option selected="" value="=">等于</option>' +
+            '<option value="!=">不等于</option>' +
+            '<option value=">">大于</option>' +
+            '<option value=">=">大于等于</option>' +
+            '<option value="<">小于</option>' +
+            '<option value="<=">小于等于</option>' +
+            '<option value="contains">包含</option>' +
+            '<option value="be_containsed_by">被包含</option>' +
+            '<option value="!contains">不包含</option>' +
+            '<option value="other">其它</option>' +
+            '<option value="no_result">无结果</option>' +
+            '<option value="null">出错</option>' +
+            '</select>' +
+            '<input type="number" placeholder="请输入数额" style="height:28px;width: 100px" class="sum">';
+            $.ajax({
+                url:'data/data.json',
+                success:function (data) {
+                    index++;
+                    $.each(data,function (index_first,data) {
+                        var str_1="";
+                        str_1+='<div class="addSection" id="addSection_'+index+'" >' +
+                            '<div class="setting setting_'+index+'">' +
+                            ' <label>设置分数线：' +
+                            '<input type="text" value="'+data.line+'" style="width: 100px;padding-left: 5px" class="fenshu">' +
+                            '</label>' +
+                            '<label>设置临界范围比例：' +
+                            '<input type="text" value="'+data.proportion+'" style="width: 100px;padding-left: 5px" class="propert">%' +
+                            '</label>' +
+                            '<label style="float: right;text-align: right">' +
+                            '<input type="button" value="增加选项" class="addContent_'+index+'">' +
+                            '</label>' +
+                            '</div>';
+                            $.each(data.xuanxianglist,function (index_table,data_table) {
+                                var str_table='';
+                                     str_table+=
+                                    '<table id="process-demo_'+index+'" class="process-demo tb tb-b c-100 c-t-center">' +
+                                    '<tbody class="bodies_'+index+'">';
+                                    $.each(data_table.runlist,function (index_solo,data_solo) {
+                                        var selectBox='';
+                                        selectBox+='<select index="0" name="opt" style="width: 100px;margin-right: 10px;" class="symbol">' +
+                                            '<option selected="" value="'+data_solo.opt+'">'+data_solo.opt+'</option>' +
+                                            '<option  value="=">等于</option>' +
+                                            '<option value="!=">不等于</option>' +
+                                            '<option value=">">大于</option>' +
+                                            '<option value=">=">大于等于</option>' +
+                                            '<option value="<">小于</option>' +
+                                            '<option value="<=">小于等于</option>' +
+                                            '<option value="contains">包含</option>' +
+                                            '<option value="be_containsed_by">被包含</option>' +
+                                            '<option value="!contains">不包含</option>' +
+                                            '<option value="other">其它</option>' +
+                                            '<option value="no_result">无结果</option>' +
+                                            '<option value="null">出错</option>' +
+                                            '</select>' +
+                                            '<input type="number" placeholder="请输入数额" style="height:28px;width: 100px" class="sum" value="'+data_solo.value+'">';
+                                        var str_solo='';
+                                        str_solo+='<tr>';
+                                                  var str_td='';
+                                                  str_td+='<td class="name">'+data_table.item_name+'</td>' +
+                                                  ' <td class="select_1">'+selectBox+'</td>' +
+                                                  '<td class="select_2">' +
+                                                  '<input type="text" value="'+data_solo.resule+'">' +
+                                                  '</td>' +
+                                                  '<td class="play_table">' +
+                                                  '<input type="button" value="编辑" class="edit_'+editIndex+'">' +
+                                                  '<input type="button" value="删除" class="deleteSmall" name="deleteAll">' +
+                                                  '</td>';
+                                                  str_solo+=str_td;
+                                                str_solo+='</tr>';
+                                        str_table+=str_solo;
+                                     });
+                                    str_table+= '</tbody></table>';
+                                    str_1+=str_table;
+
+
+                            });
+                             str_1+='<input type="button" value="删除区间" class="deleteAll" style="margin-top:20px"></div></div>';
+                             $(".type_select").append(str_1);
+
+                            $('.process-demo').tablesMergeCell({
+                            automatic: true,//指的 是否根据内容来合并
+                            cols: [0, 3] //指的是要合并的列的索引,用数组表示列的索引,从0开始,然后根据指定列来处理(合并)相同内容单元格
+                            //rows: null // 用数组表示行的索引
+                            });
+                        });
+                    var editDom= "edit_"+editIndex;
+                    var addDom= "addContent_"+index;
+
+                    $(".addSpace").click(function () {
+                        index++;
+                        var str_1="";
+                        str_1+='<div class="addSection" id="addSection_'+index+'" >' +
+                            '<div class="setting setting_'+index+'">' +
+                            ' <label>设置分数线：' +
+                            '<input type="text" value="" style="width: 100px;padding-left: 5px" class="fenshu">' +
+                            '</label>' +
+                            '<label>设置临界范围比例：' +
+                            '<input type="text" value="" style="width: 100px;padding-left: 5px" class="propert">%' +
+                            '</label>' +
+                            '<label style="float: right;text-align: right">' +
+                            '<input type="button" value="增加选项" class="addContent_'+index+'">' +
+                            '</label>' +
+                            '</div>' +
+                            '<div>' +
+                            '<input type="button" value="删除区间" class="deleteAll">' +
+                            '</div>' +
+                            '</div>'
+                        $(".type_select").append(str_1);
+                        var addContentDom= "addContent_"+index;
+                        $('.'+addContentDom).click(function () {
+                            editIndex++;
+                            if(flag){
+                                $(this).parent().parent().append('<table id="process-demo_'+index+'" class="process-demo tb tb-b                             c-100 c-t-center">' +
+                                    '<tbody class="bodies_'+index+'">' +
+                                    '<tr>' +
+                                    '<td class="name">贷款金额</td>' +
+                                    ' <td class="select_1">'+selectBox+'</td>' +
+                                    '<td class="select_2">' +
+                                    '<input type="text" value="true">' +
+                                    '</td>' +
+                                    '<td class="play_table">' +
+                                    '<input type="button" value="编辑" class="edit_'+editIndex+'">' +
+                                    '<input type="button" value="删除" class="deleteSmall">' +
+                                    '</td>' +
+                                    '</tr>' +
+                                    '</tbody>' +
+                                    '</table>'
+                                );
+
+                                var editDom= "edit_"+editIndex;
+                                $('.'+editDom).click(function () {
+                                    $(this).parent().parent().parent().append('<tr>' +
+                                        '<td>贷款金额</td>' +
+                                        ' <td>'+selectBox+'</td>' +
+                                        '<td>' +
+                                        '<input type="text" value="true">' +
+                                        '</td>' +
+                                        '<td class="play_table">' +
+                                        '<input type="button" value="编辑" class="'+editDom+'">' +
+                                        '<input type="button" value="删除" class="deleteSmall">' +
+                                        '</td>' +
+                                        '</tr>'
+                                    );
+                                    $(".deleteSmall").click(function () {
+                                        $(this).parentsUntil().eq(2).remove();
+                                    });
+                                    $('.process-demo').tablesMergeCell({
+                                        automatic: true,//指的 是否根据内容来合并
+                                        cols: [0, 3] //指的是要合并的列的索引,用数组表示列的索引,从0开始,然后根据指定列来处理(合并)相同内容单元格
+                                        //rows: null // 用数组表示行的索引
+                                    });
+                                });
+
+                                $('.process-demo').tablesMergeCell({
+                                    automatic: true,//指的 是否根据内容来合并
+                                    cols: [0, 3] //指的是要合并的列的索引,用数组表示列的索引,从0开始,然后根据指定列来处理(合并)相同内容单元格
+                                    //rows: null // 用数组表示行的索引
+                                });
+                            }
+                        });
+                        $(".deleteAll").click(function (){
+                            $(this).parentsUntil().eq(1).remove();
+                        });
+
+
+
+                    });
+                    var addContentDom= "addContent_"+index;
+                    $('.'+addContentDom).click(function () {
+                        editIndex++;
+                        if(flag){
+                            $(this).parent().parent().append('<table id="process-demo_'+index+'" class="process-demo tb tb-b                             c-100 c-t-center">' +
+                                '<tbody class="bodies_'+index+'">' +
+                                '<tr>' +
+                                '<td class="name">贷款金额</td>' +
+                                ' <td class="select_1">'+selectBox+'</td>' +
+                                '<td class="select_2">' +
+                                '<input type="text" value="true">' +
+                                '</td>' +
+                                '<td class="play_table">' +
+                                '<input type="button" value="编辑" class="edit_'+editIndex+'">' +
+                                '<input type="button" value="删除" class="deleteSmall">' +
+                                '</td>' +
+                                '</tr>' +
+                                '</tbody>' +
+                                '</table>'
+                            );
+
+                            var editDom= "edit_"+editIndex;
+                            $('.'+editDom).click(function () {
+                                $(this).parent().parent().parent().append('<tr>' +
+                                    '<td>贷款金额</td>' +
+                                    ' <td>'+selectBox+'</td>' +
+                                    '<td>' +
+                                    '<input type="text" value="true">' +
+                                    '</td>' +
+                                    '<td class="play_table">' +
+                                    '<input type="button" value="编辑" class="'+editDom+'">' +
+                                    '<input type="button" value="删除" class="deleteSmall">' +
+                                    '</td>' +
+                                    '</tr>'
+                                );
+                                $(".deleteSmall").click(function () {
+                                    $(this).parentsUntil().eq(2).remove();
+                                });
+                                $('.process-demo').tablesMergeCell({
+                                    automatic: true,//指的 是否根据内容来合并
+                                    cols: [0, 3] //指的是要合并的列的索引,用数组表示列的索引,从0开始,然后根据指定列来处理(合并)相同内容单元格
+                                    //rows: null // 用数组表示行的索引
+                                });
+                            });
+                            $(".deleteSmall").click(function () {
+                                $(this).parentsUntil().eq(2).remove();
+                            });
+                            $('.process-demo').tablesMergeCell({
+                                automatic: true,//指的 是否根据内容来合并
+                                cols: [0, 3]
+                            });
+                        }
+                    });
+                    $('.'+editDom).click(function () {
+                        console.log($(this).parent().parent())
+                        $(this).parent().parent().parent().append('<tr>' +
+                            '<td>贷款金额</td>' +
+                            ' <td>'+selectBox+'</td>' +
+                            '<td>' +
+                            '<input type="text" value="true">' +
+                            '</td>' +
+                            '<td class="play_table">' +
+                            '<input type="button" value="编辑">' +
+                            '<input type="button" value="删除">' +
+                            '</td>' +
+                            '</tr>'
+                        );
+                        $('.process-demo').tablesMergeCell({
+                            automatic: true,//指的 是否根据内容来合并
+                            cols: [0, 3]
+                        });
+                        $(".deleteSmall").click(function () {
+                            $(this).parentsUntil().eq(2).remove();
+                        });
+
+
+                    });
+                    $(".deleteSmall").click(function () {
+                        $(this).parentsUntil().eq(2).remove();
+                    });
+
+                    $(".tijiao").click(function () {
+                        var aryTotal=[];
+                        $.each($(".addSection"),function (index,data) { //有四个大区间
+                            var divObj={};
+                            var grade=$(data).children(".setting").children("label").children("input.fenshu").val();
+                            var gradeRate=$(data).children(".setting").children("label").children("input.propert").val();
+                            divObj["proportion"]=grade;
+                            divObj["line"]=gradeRate;
+                            var tableAry=[];
+                            var eachTable=$(data).children(".setting").children("table");
+                            $.each($(eachTable),function(index,tableData){ //有四个大table
+                                var tbodyObj={}; //一个table有一个tbody，一个body下有无数个tr，一个tr下有无数个td
+                                var todyData=$(tableData).children("tbody"); // 各自table下的tbody
+                                $.each(todyData,function (index,eachData) {
+                                    var name=$(eachData).find(".name").html();
+                                    tbodyObj["item_name"]=name;
+                                    var trData=$(eachData).children("tr");
+                                    var trAry=[];
+                                    $.each(trData,function (index,eachTrData) { //这里循环的是每个tr，要获取每个tr下的td的值
+                                        var  trObj={};
+                                        var tdData=$(eachTrData).children("td");
+                                        var opt,result,numValue;
+                                        opt=tdData.eq(1).children(".symbol").val();
+                                        result=tdData.eq(1).children(".sum").val();
+                                        numValue=tdData.eq(2).children("input").val();
+                                        trObj["opt"]=opt;
+                                        trObj["result"]=result;
+                                        trObj["value"]=numValue;
+                                        trAry.push(trObj);
+                                    });
+                                    tbodyObj["runlist"] = trAry;
+                                });
+                                tableAry.push(tbodyObj)
+                            });
+                            divObj["xuanxianglist"]=tableAry;
+                            aryTotal.push(divObj)
+                        });
+                    });
+                    $(".deleteAll").click(function (e){
+                        $(this).parent().remove();
+                    });
+                }
+            });
+        $('.process-demo').tablesMergeCell({
+            automatic: true,//指的 是否根据内容来合并
+            cols: [0, 3] //指的是要合并的列的索引,用数组表示列的索引,从0开始,然后根据指定列来处理(合并)相同内容单元格
+            //rows: null // 用数组表示行的索引
+        });
+    });
+</script>
+
+</body>
+</html>

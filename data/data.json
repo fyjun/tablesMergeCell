@@ -1,0 +1,88 @@
+[
+  {
+    "proportion": "2",
+    "line": "300",
+    "xuanxianglist": [
+      {
+        "item_code": "1231321",
+        "item_name": "贷款金额",
+        "runlist": [
+          {
+            "opt": "<=",
+            "resule": "true",
+            "value": "100000"
+          },
+          {
+            "opt": ">",
+            "resule": "false",
+            "value": "100000"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "proportion": "2",
+    "line": "300",
+    "xuanxianglist": [
+      {
+        "item_code": "1231321",
+        "item_name": "贷款金额",
+        "runlist": [
+          {
+            "opt": "<=",
+            "resule": "===true",
+            "value": "100000"
+          },
+          {
+            "opt": "<=",
+            "resule": "true",
+            "value": "250000"
+          },
+          {
+            "opt": ">",
+            "resule": "===false",
+            "value": "250000"
+          }
+        ]
+      },{
+        "item_code": "1231321",
+        "item_name": "电核是否为农村",
+        "runlist": [
+          {
+            "opt": "包含",
+            "resule": "是",
+            "value": "false"
+          },
+          {
+            "opt": "包含",
+            "resule": "true",
+            "value": "否"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "proportion": "2",
+    "line": "300",
+    "xuanxianglist": [
+      {
+        "item_code": "1231321",
+        "item_name": "贷款金额",
+        "runlist": [
+          {
+            "opt": "<=",
+            "resule": "true",
+            "value": "250000"
+          },
+          {
+            "opt": ">",
+            "resule": "false",
+            "value": "250000"
+          }
+        ]
+      }
+    ]
+  }
+]
